@@ -1,43 +1,37 @@
-// Registering component in Collider.js
-AFRAME.registerComponent("flying-fishs", {
-    init: function () {
-      for (var i = 1; i <= 20; i++) {
-        //id
-        var id = `hurdle${i}`;
-  
-        //position variables
-        var posX = Math.floor(Math.random() * 3000 + -1000);
-        var posY = Math.floor(Math.random() * 2 + -1);
-        var posZ = Math.floor(Math.random() * 3000 + -1000);
-  
-        var position = { x: posX, y: posY, z: posZ };
-  
-        //call the function
-        this.flyingFishs(id, position);
-      }
-    },
-    flyingFishs: (id, position) => {
-      //Get the terrain element
-      var terrainEl = document.querySelector("#island");
-  
-      //creating the fish model entity
-      var fishEl = document.createElement("a-entity");
-  
-      //Setting multiple attributes
-      fishEl.setAttribute("id", id);
-  
-      fishEl.setAttribute("position", position);
-      //fishEl.setAttribute("scale", { x: 500, y: 500, z: 500 });
-  
-      fishEl.setAttribute("gltf-model", "P154/fish/scene.gltf");
-  
-      //animated models
-      fishEl.setAttribute("animation-mixer", {});
-  
-      //append the fish entity as the child of the terrain entity
-      terrainEl.appendChild(fishEl);
+AFRAME.registerComponent("fish", {
+  init: function () {
+    for (var i = 1; i <= 50; i++) {
+      const id = `fish${i}`;
+
+      const posX = Math.random() * 100 + -50;
+      const posY = Math.random() * 5 + 5;
+      const posZ = Math.random() * 60 + -40;
+      const position = { x: posX, y: posY, z: posZ };
+      this.genrateFish(id, position);
     }
-  });
-  
-  
-  
+  },
+  genrateFish: function (id, position) {
+    const fishModelEntity = document.querySelector("#fishModels");
+    var fishEl = document.createElement("a-entity");
+
+    fishEl.setAttribute("id", id);
+    fishEl.setAttribute("position", position);
+    fishEl.setAttribute("rotation", { x: 0, y: 180, z: 0 });
+
+    fishEl.setAttribute("scale", { x: 0.3, y: 0.3, z: 0.3 });
+
+    fishEl.setAttribute("gltf-model", "./fish/scene.gltf");
+
+    
+    fishEl.setAttribute("animation", {
+      property: "position",
+      to: "100 10 -20",
+      loop: "true",
+      dur: 10000
+    });
+
+    fishEl.setAttribute("animation-mixer", {});
+
+    fishModelEntity.appendChild(fishEl);
+  }
+})
